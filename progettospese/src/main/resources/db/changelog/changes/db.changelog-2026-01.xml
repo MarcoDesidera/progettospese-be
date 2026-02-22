@@ -1,0 +1,21 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:secure="http://www.liquibase.org/xml/ns/secure"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/secure
+        http://www.liquibase.org/xml/ns/secure/liquibase-secure-latest.xsd">
+
+  <changeSet id="create_table_conti_corrente" author="marco.desidera">
+    <createTable tableName="conti_corrente">
+      <column name="id" type="int">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+    </createTable>
+  </changeSet>
+
+</databaseChangeLog>
