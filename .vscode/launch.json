@@ -12,7 +12,7 @@
             "mainClass": "com.progettospese.progettospese.ProgettospeseApplication",
             "projectName": "progettospese",
             "env": {
-                "SPRING_DATASOURCE_URL": "jdbc:postgresql://postgres:u._ex8wge!M_P!4@db.blmkjyzahgrjljvfaesj.supabase.co:5432/postgres",
+                "SPRING_DATASOURCE_URL": "jdbc:postgresql://db.blmkjyzahgrjljvfaesj.supabase.co:5432/postgres",
                 "SPRING_DATASOURCE_USERNAME": "postgres",
                 "SPRING_DATASOURCE_PASSWORD": "u._ex8wge!M_P!4"
             }
