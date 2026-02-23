@@ -11,6 +11,11 @@
         http://www.liquibase.org/xml/ns/secure/liquibase-secure-latest.xsd">
 
   <changeSet id="create_table_conti_corrente" author="marco.desidera">
+    <preConditions onFail="MARK_RAN">
+      <not>
+          <tableExists tableName="conti_corrente"/>
+      </not>
+    </preConditions>
     <createTable tableName="conti_corrente">
       <column name="id" type="int">
         <constraints primaryKey="true" nullable="false" />
