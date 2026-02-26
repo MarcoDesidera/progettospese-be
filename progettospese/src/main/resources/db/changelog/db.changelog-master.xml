@@ -7,6 +7,5 @@
 
     <include file="db/changelog/changes/db.changelog-2026-01.xml" relativeToChangelogFile="false"/>
     <include file="db/changelog/changes/db.changelog-2026-02.xml" relativeToChangelogFile="false"/>
-    <include file="db/changelog/changes/db.changelog-2026-03.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>

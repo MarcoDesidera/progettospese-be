@@ -18,6 +18,20 @@
     </addColumn>
   </changeSet>
 
+  <changeSet id="create_table_categorie" author="marco.desidera">
+    <preConditions onFail="MARK_RAN">
+      <not>
+          <tableExists tableName="categorie"/>
+      </not>
+    </preConditions>
+    <createTable tableName="categorie">
+      <column name="id" type="int">
+        <constraints primaryKey="true" nullable="false" />
+      </column>
+      <column name="nome" type="varchar(255)" />
+    </createTable>
+  </changeSet>
+
   <changeSet id="create_table_transazioni" author="marco.desidera">
     <preConditions onFail="MARK_RAN">
       <not>
@@ -35,20 +49,20 @@
       <column name="importo" type="money" />
       <column name="data_transazione" type="timestamp" />
     </createTable>
-  </changeSet>
 
-  <changeSet id="create_table_categorie" author="marco.desidera">
-    <preConditions onFail="MARK_RAN">
-      <not>
-          <tableExists tableName="categorie"/>
-      </not>
-    </preConditions>
-    <createTable tableName="categorie">
-      <column name="id" type="int">
-        <constraints primaryKey="true" nullable="false" />
-      </column>
-      <column name="nome" type="varchar(255)" />
-    </createTable>
+    <addForeignKeyConstraint baseTableName="transazioni"
+                                 baseColumnNames="id_conto_corrente"
+                                 constraintName="fk_transazioni_conto"
+                                 referencedTableName="conti_corrente"
+                                 referencedColumnNames="id"
+                                 onDelete="CASCADE"/>
+
+    <addForeignKeyConstraint baseTableName="transazioni"
+                              baseColumnNames="categoria"
+                              constraintName="fk_transazioni_categoria"
+                              referencedTableName="categorie"
+                              referencedColumnNames="id"
+                              onDelete="SET NULL"/>
   </changeSet>
 
 </databaseChangeLog>

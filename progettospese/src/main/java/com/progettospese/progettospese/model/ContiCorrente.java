@@ -1,6 +1,7 @@
 package com.progettospese.progettospese.model;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,6 +20,10 @@ public class ContiCorrente {
 
     private String nome;
     private String descrizione;
+
+    //PER POTER RECUPERARE TUTTE LE TRANSAZIONI DAL CONTO CORRENTE
+    @jakarta.persistence.OneToMany(mappedBy = "contoCorrente")
+    private List<Transazioni> transazioni;
 
     @Column(name = "totale", precision = 19, scale = 2)
     private BigDecimal totale;
@@ -46,5 +51,11 @@ public class ContiCorrente {
     }
     public void setTotale(BigDecimal totale) {
         this.totale = totale;
+    }
+    public List<Transazioni> getTransazioni() {
+        return transazioni;
+    }
+    public void setTransazioni(List<Transazioni> transazioni) {
+        this.transazioni = transazioni;
     }
 }
