@@ -11,6 +11,17 @@
         http://www.liquibase.org/xml/ns/secure/liquibase-secure-latest.xsd">
 
   <changeSet id="add_columns_conti_corrente" author="marco.desidera">
+    <preConditions onFail="MARK_RAN">
+      <not>
+          <columnExists tableName="conti_corrente" columnName="nome"/>
+      </not>
+      <not>
+          <columnExists tableName="conti_corrente" columnName="descrizione"/>
+      </not>
+      <not>
+          <columnExists tableName="conti_corrente" columnName="totale"/>
+      </not>
+    </preConditions>
     <addColumn tableName="conti_corrente">
       <column name="nome" type="varchar(255)"/>
       <column name="descrizione" type="varchar(255)" />
