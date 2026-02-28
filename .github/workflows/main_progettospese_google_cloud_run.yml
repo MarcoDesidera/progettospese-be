@@ -1,0 +1,50 @@
+name: Deploy to Cloud Run - progettospese
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  PROJECT_ID: progettospese   # <--- SOSTITUISCI CON IL TUO PROJECT ID
+  REGION: europe-west8          # <--- LA REGIONE DEL TUO REPOSITORY DOCKER
+  SERVICE_NAME: progettospese
+  REPO_NAME: progettospese-repo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 1. Autenticazione con Google Cloud (usa il segreto JSON che hai creato)
+      - name: Google Auth
+        uses: 'google-github-actions/auth@v2'
+        with:
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+      # 2. Configura Docker per parlare con Google Artifact Registry
+      - name: Authorize Docker
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev
+
+      # 3. Build e Push dell'immagine Docker (usa il Dockerfile nella root)
+      # Nota: il comando build punta alla cartella del tuo progetto
+      - name: Build and Push Container
+        run: |-
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/app-repo/${{ env.SERVICE_NAME }}:${{ github.sha }} .
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/app-repo/${{ env.SERVICE_NAME }}:${{ github.sha }}
+
+      # 4. Deploy su Cloud Run (Configurazione GRATIS: min-instances 0)
+      - name: Deploy to Cloud Run
+        run: |-
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/app-repo/${{ env.SERVICE_NAME }}:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --platform managed \
+            --allow-unauthenticated \
+            --memory 512Mi \
+            --cpu 1 \
+            --min-instances 0 \
+            --port 8080
