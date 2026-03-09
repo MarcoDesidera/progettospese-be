@@ -1,0 +1,32 @@
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:secure="http://www.liquibase.org/xml/ns/secure"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+        http://www.liquibase.org/xml/ns/secure
+        http://www.liquibase.org/xml/ns/secure/liquibase-secure-latest.xsd">
+
+  <preConditions onFail="WARN">
+      <not>
+        <sqlCheck expectedResult="0">
+            SELECT COUNT(*) 
+            FROM information_schema.columns
+            WHERE table_name='conti_corrente'
+            AND column_name='id'
+            AND identity_generation IS NOT NULL;
+        </sqlCheck>
+    </not>
+  </preConditions>
+
+  <changeSet id="add_autoincrement_id_conto_corrente" author="marco.desidera">
+        <addAutoIncrement
+            tableName="conti_corrente"
+            columnName="id"
+            columnDataType="BIGINT"/>
+    </changeSet>
+
+</databaseChangeLog>
