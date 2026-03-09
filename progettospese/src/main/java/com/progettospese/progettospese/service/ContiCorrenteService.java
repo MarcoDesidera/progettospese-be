@@ -10,8 +10,10 @@ import com.progettospese.progettospese.dto.ContiCorrenteDto;
 import com.progettospese.progettospese.mapper.ContiCorrenteMapper;
 import com.progettospese.progettospese.model.ContiCorrente;
 import com.progettospese.progettospese.repository.ContiCorrenteRepo;
+import jakarta.transaction.Transactional;
 
 @Service
+@Transactional
 public class ContiCorrenteService {
 
     @Autowired
@@ -23,6 +25,17 @@ public class ContiCorrenteService {
         List<ContiCorrente> contiCorrente = contiCorrenteRepo.findAll();
 
         return contiCorrente.stream().map(contiCorrenteMapper::mapOut).collect(Collectors.toList());
+    }
+
+    public void addContoCorrente(ContiCorrenteDto ccDto) {
+
+        ContiCorrente cc = new ContiCorrente();
+
+        cc.setNome(ccDto.getNome());
+        cc.setDescrizione(ccDto.getDescrizione());
+        cc.setTotale(ccDto.getTotale());
+
+        contiCorrenteRepo.save(cc);
     }
 
 }
